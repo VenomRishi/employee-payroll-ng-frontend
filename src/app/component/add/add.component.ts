@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Employee } from '../../model/employee';
+import { HttpService } from '../../service/http.service';
 
 @Component({
   selector: 'app-add',
@@ -36,7 +37,10 @@ export class AddComponent implements OnInit {
     }
   ]
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private httpService: HttpService,
+    ) {
     this.employeeFormGroup = this.formBuilder.group({
       name: new FormControl(''),
       profilePic: new FormControl(''),
@@ -76,7 +80,10 @@ export class AddComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.employeeFormGroup);
+    this.employee = this.employeeFormGroup.value;
+    this.httpService.addEmployeeData(this.employee).subscribe(response=> {
+      console.log(response);
+    });
   }
 
 }
