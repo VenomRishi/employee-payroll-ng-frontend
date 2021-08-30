@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { Employee } from '../../model/employee';
 import { HttpService } from '../../service/http.service';
+import { DataService } from '../../service/data.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -40,6 +42,8 @@ export class AddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private httpService: HttpService,
+    private dataService: DataService,
+    private activatedRoute: ActivatedRoute
     ) {
     this.employeeFormGroup = this.formBuilder.group({
       name: new FormControl(''),
@@ -53,7 +57,14 @@ export class AddComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(this.employeeFormGroup);
+    if(this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.dataService.currentEmployee.subscribe(employee=>{
+        if(Object.keys(employee).length !== 0) {
+          this.employeeFormGroup.get('name')?.setValue(employee.name);
+        }
+      });
+    }
+    
   }
 
   formatLabel(value: number) {

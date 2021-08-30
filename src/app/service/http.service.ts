@@ -7,16 +7,26 @@ import { Observable } from 'rxjs';
 })
 export class HttpService {
 
+  private baseUrl: string = "http://localhost:8089";
+
   constructor(private httpClient: HttpClient) {
     
   }
 
   getEmployeeData(): Observable<any> {
-    return this.httpClient.get("http://localhost:8089/getEmployee");
+    return this.httpClient.get(this.baseUrl + "/getEmployee");
   }
 
   addEmployeeData(body: any): Observable<any> {
-    return this.httpClient.post("http://localhost:8089/addEmployee", body);
+    return this.httpClient.post(this.baseUrl + "/addEmployee", body);
+  }
+
+  deleteEmployeeData(employeeId: number): Observable<any> {
+    return this.httpClient.delete(this.baseUrl + "/deleteEmployee", 
+    {
+      headers: new HttpHeaders(),
+      params: new HttpParams().append('id', employeeId)
+    })
   }
 
 }

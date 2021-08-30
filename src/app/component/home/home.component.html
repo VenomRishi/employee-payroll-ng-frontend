@@ -34,11 +34,8 @@
                 <td>{{employee.salary}}</td>
                 <td>{{employee.startDate}}</td>
                 <td>
-                    <img id={{employee.id}} onclick="remove(this)"
-                        src="../assets/icons/delete-black-18dp.svg"
-                        alt="delete">
-                    <img id={{employee.id}} onclick="update(this)"
-                        src="../assets/icons/create-black-18dp.svg" alt="edit">
+                    <img src="../assets/icons/delete-black-18dp.svg" alt="delete" (click)="remove(employee.id)">
+                    <img src="../assets/icons/create-black-18dp.svg" alt="edit" (click)="update(employee)">
                 </td>
             </tr>
         </table>
